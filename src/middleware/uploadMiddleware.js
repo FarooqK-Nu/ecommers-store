@@ -1,5 +1,5 @@
-const multer = require('multer');
-const ApiError = require('../utils/ApiError');
+import multer from 'multer';
+import ApiError from '../utils/ApiError.js';
 
 // Configure multer storage in memory (buffers) to feed into Cloudinary stream
 const multerStorage = multer.memoryStorage();
@@ -23,4 +23,4 @@ const upload = multer({
 });
 
 // Handler for parsing up to 5 images on a request
-exports.uploadProductImages = upload.array('images', 5);
+export const uploadProductImages = upload.array('images', 5);

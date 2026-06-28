@@ -1,6 +1,6 @@
-const express = require('express');
-const productController = require('../controllers/productController');
-const { uploadProductImages } = require('../middleware/uploadMiddleware');
+import express from 'express';
+import * as productController from '../controllers/productController.js';
+import { uploadProductImages } from '../middleware/uploadMiddleware.js';
 
 const router = express.Router();
 
@@ -15,4 +15,4 @@ router
   .patch(uploadProductImages, productController.updateProduct) // Auth checking to be added in Phase 3
   .delete(productController.deleteProduct); // Auth checking to be added in Phase 3
 
-module.exports = router;
+export default router;

@@ -1,4 +1,4 @@
-const cloudinary = require('../config/cloudinary');
+import cloudinary from '../config/cloudinary.js';
 
 /**
  * Upload a raw buffer to Cloudinary using its uploader stream.
@@ -7,7 +7,7 @@ const cloudinary = require('../config/cloudinary');
  * @param {string} folder - The destination folder in Cloudinary.
  * @returns {Promise<string>} - Resolves with the secure upload URL.
  */
-exports.uploadBuffer = (buffer, folder = 'shopsphere/products') => {
+export const uploadBuffer = (buffer, folder = 'shopsphere/products') => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       { //options object

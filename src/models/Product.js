@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -99,7 +99,7 @@ productSchema.index({ ratings: -1 });
 
 // Document middleware: runs before .save() and .create()
 
-// Middleware to gen a sluf if name is updated or created
+// Middleware to gen a slug if name is updated or created
 productSchema.pre('save', async function () {
   if (this.isModified('name')) {
     this.slug = this.name
@@ -111,4 +111,4 @@ productSchema.pre('save', async function () {
 
 const Product = mongoose.model('Product', productSchema);
 
-module.exports = Product;
+export default Product;

@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const logger = require("../utils/logger");
+import mongoose from 'mongoose';
+import logger from '../utils/logger.js';
 
 /**
  * Connect to MongoDB using database URL from environment variables.
@@ -7,17 +7,17 @@ const logger = require("../utils/logger");
 const connectDB = async () => {
   try {
     const dbUrl = process.env.DATABASE_URL.replace(
-      "<db_password>",
+      '<db_password>',
       process.env.DATABASE_PASSWORD,
     );
     // console.log(dbUrl);
     if (!dbUrl) {
       throw new Error(
-        "DATABASE_URL is not defined in the environment variables",
+        'DATABASE_URL is not defined in the environment variables',
       );
     }
 
-    const connection = await mongoose.connect(dbUrl, { dbName: "ecommers" });
+    const connection = await mongoose.connect(dbUrl, { dbName: 'ecommers' });
 
     logger.info(
       `MongoDB connected successfully to host: ${connection.connection.host}`,
@@ -28,4 +28,4 @@ const connectDB = async () => {
   }
 };
 
-module.exports = connectDB;
+export default connectDB;

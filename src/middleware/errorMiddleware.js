@@ -1,5 +1,5 @@
-const ApiError = require('../utils/ApiError');
-const logger = require('../utils/logger');
+import ApiError from '../utils/ApiError.js';
+import logger from '../utils/logger.js';
 
 /**
  * Handle Mongoose Cast Errors (e.g. invalid ObjectId format)
@@ -14,7 +14,7 @@ const handleCastErrorDB = (err) => {
  */
 const handleDuplicateFieldsDB = (err) => {
   // Regex to extract the duplicated value inside quotes
-  const match = err.message.match(/(["'])(\\?.)*?\1/);
+  const match = err.message.match(/([\"'])(\\?.)*?\1/);
   const value = match ? match[0] : '';
   const message = `Duplicate field value: ${value}. Please use another value!`;
   return new ApiError(message, 400);
@@ -70,7 +70,7 @@ const sendErrorProd = (err, req, res) => {
 };
 
 // Global error handling middleware
-module.exports = (err, req, res, next) => {
+export default (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 

@@ -1,14 +1,17 @@
-const Product = require('../models/Product');
-const APIFeatures = require('../utils/APIFeatures');
-const ApiError = require('../utils/ApiError');
-const uploadService = require('../services/uploadService');
+import Product from '../models/Product.js';
+import APIFeatures from '../utils/APIFeatures.js';
+import ApiError from '../utils/ApiError.js';
+import * as uploadService from '../services/uploadService.js';
 
 /**
  * Get all products with filtering, sorting, field limiting, and pagination
  */
-exports.getAllProducts = async (req, res) => {
+export const getAllProducts = async (req, res) => {
   // 1) Initialize query and features chain
-  const features = new APIFeatures(Product.find().populate('category'), req.query)
+  const features = new APIFeatures(
+    Product.find().populate('category'),
+    req.query,
+  )
     .filter()
     .sort()
     .limitFields()
@@ -22,15 +25,15 @@ exports.getAllProducts = async (req, res) => {
     status: 'success',
     results: products.length,
     data: {
-      products
-    }
+      products,
+    },
   });
 };
 
 /**
  * Get a single product by ID
  */
-exports.getProduct = async (req, res) => {
+export const getProduct = async (req, res) => {
   const product = await Product.findById(req.params.id).populate('category');
 
   if (!product) {
@@ -40,8 +43,8 @@ exports.getProduct = async (req, res) => {
   res.status(200).json({
     status: 'success',
     data: {
-      product
-    }
+      product,
+    },
   });
 };
 
@@ -49,10 +52,12 @@ exports.getProduct = async (req, res) => {
  * Create a new product (Admin)
  * Handles image uploading to Cloudinary if image files are provided
  */
-exports.createProduct = async (req, res) => {
+export const createProduct = async (req, res) => {
   // Handle file uploads to Cloudinary
   if (req.files && req.files.length > 0) {
-    const uploadPromises = req.files.map(file => uploadService.uploadBuffer(file.buffer));
+    const uploadPromises = req.files.map((file) =>
+      uploadService.uploadBuffer(file.buffer),
+    );
     req.body.images = await Promise.all(uploadPromises);
   }
 
@@ -70,8 +75,8 @@ exports.createProduct = async (req, res) => {
   res.status(201).json({
     status: 'success',
     data: {
-      product: newProduct
-    }
+      product: newProduct,
+    },
   });
 };
 
@@ -79,10 +84,12 @@ exports.createProduct = async (req, res) => {
  * Update an existing product by ID (Admin)
  * Handles uploading new image files to Cloudinary
  */
-exports.updateProduct = async (req, res) => {
+export const updateProduct = async (req, res) => {
   // Handle file uploads to Cloudinary
   if (req.files && req.files.length > 0) {
-    const uploadPromises = req.files.map(file => uploadService.uploadBuffer(file.buffer));
+    const uploadPromises = req.files.map((file) =>
+      uploadService.uploadBuffer(file.buffer),
+    );
     const imageUrls = await Promise.all(uploadPromises);
 
     // Support merging/appending new images to existing list or replacing completely
@@ -105,8 +112,8 @@ exports.updateProduct = async (req, res) => {
   }
 
   const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true
+    returnDocument: 'after',
+    runValidators: true,
   });
 
   if (!product) {
@@ -116,15 +123,15 @@ exports.updateProduct = async (req, res) => {
   res.status(200).json({
     status: 'success',
     data: {
-      product
-    }
+      product,
+    },
   });
 };
 
 /**
  * Delete a product by ID (Admin)
  */
-exports.deleteProduct = async (req, res) => {
+export const deleteProduct = async (req, res) => {
   const product = await Product.findByIdAndDelete(req.params.id);
 
   if (!product) {
@@ -133,6 +140,6 @@ exports.deleteProduct = async (req, res) => {
 
   res.status(204).json({
     status: 'success',
-    data: null
+    data: null,
   });
 };

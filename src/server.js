@@ -1,4 +1,4 @@
-const logger = require('./utils/logger');
+import logger from './utils/logger.js';
 
 // 1) HANDLE UNCAUGHT EXCEPTIONS (Must be at the very top)
 process.on('uncaughtException', (err) => {
@@ -7,10 +7,10 @@ process.on('uncaughtException', (err) => {
 });
 
 // Load environment variables
-require('dotenv').config();
+import 'dotenv/config';
 
-const connectDB = require('./config/database');
-const app = require('./app');
+import connectDB from './config/database.js';
+import app from './app.js';
 
 // 2) CONNECT TO DATABASE
 connectDB();

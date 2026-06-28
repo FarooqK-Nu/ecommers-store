@@ -1,5 +1,5 @@
-const express = require('express');
-const categoryController = require('../controllers/categoryController');
+import express from 'express';
+import * as categoryController from '../controllers/categoryController.js';
 
 const router = express.Router();
 
@@ -14,4 +14,4 @@ router
   .patch(categoryController.updateCategory) // Auth checking to be added in Phase 3
   .delete(categoryController.deleteCategory); // Auth checking to be added in Phase 3
 
-module.exports = router;
+export default router;

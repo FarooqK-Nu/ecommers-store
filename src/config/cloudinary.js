@@ -1,4 +1,4 @@
-const cloudinary = require('cloudinary').v2;
+import { v2 as cloudinary } from 'cloudinary';
 
 // Configure Cloudinary credentials
 cloudinary.config({
@@ -7,4 +7,4 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET || 'mock-api-secret'
 });
 
-module.exports = cloudinary;
+export default cloudinary;

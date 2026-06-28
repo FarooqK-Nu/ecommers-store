@@ -1,12 +1,14 @@
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
-const rateLimit = require('express-rate-limit');
-const mongoSanitize = require('express-mongo-sanitize');
-const ApiError = require('./utils/ApiError');
-const globalErrorHandler = require('./middleware/errorMiddleware');
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
+import rateLimit from 'express-rate-limit';
+import mongoSanitize from 'express-mongo-sanitize';
+import ApiError from './utils/ApiError.js';
+import globalErrorHandler from './middleware/errorMiddleware.js';
+import productRouter from './routes/productRoutes.js';
+import categoryRouter from './routes/categoryRoutes.js';
 
 const app = express();
 
@@ -52,9 +54,6 @@ app.use((req, res, next) => {
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
 
-const productRouter = require('./routes/productRoutes');
-const categoryRouter = require('./routes/categoryRoutes');
-
 // 2) ROUTES
 // Base health check
 app.get('/health', (req, res) => {
@@ -80,4 +79,4 @@ app.all(/(.*)/, (req, res, next) => {
 // 3) GLOBAL ERROR MIDDLEWARE
 app.use(globalErrorHandler);
 
-module.exports = app;
+export default app;

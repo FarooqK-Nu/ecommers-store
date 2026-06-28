@@ -1,25 +1,25 @@
-const Category = require('../models/Category');
-const ApiError = require('../utils/ApiError');
+import Category from '../models/Category.js';
+import ApiError from '../utils/ApiError.js';
 
 /**
  * Fetch all categories
  */
-exports.getAllCategories = async (req, res) => {
+export const getAllCategories = async (req, res) => {
   const categories = await Category.find().sort('name');
 
   res.status(200).json({
     status: 'success',
     results: categories.length,
     data: {
-      categories
-    }
+      categories,
+    },
   });
 };
 
 /**
  * Fetch a single category by ID
  */
-exports.getCategory = async (req, res) => {
+export const getCategory = async (req, res) => {
   const category = await Category.findById(req.params.id);
   if (!category) {
     throw new ApiError('No category found with that ID', 404);
@@ -28,32 +28,32 @@ exports.getCategory = async (req, res) => {
   res.status(200).json({
     status: 'success',
     data: {
-      category
-    }
+      category,
+    },
   });
 };
 
 /**
  * Create a new category (Admin)
  */
-exports.createCategory = async (req, res) => {
+export const createCategory = async (req, res) => {
   const newCategory = await Category.create(req.body);
 
   res.status(201).json({
     status: 'success',
     data: {
-      category: newCategory
-    }
+      category: newCategory,
+    },
   });
 };
 
 /**
  * Update an existing category by ID (Admin)
  */
-exports.updateCategory = async (req, res) => {
+export const updateCategory = async (req, res) => {
   const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true
+    returnDocument: 'after',
+    runValidators: true,
   });
 
   if (!category) {
@@ -63,15 +63,15 @@ exports.updateCategory = async (req, res) => {
   res.status(200).json({
     status: 'success',
     data: {
-      category
-    }
+      category,
+    },
   });
 };
 
 /**
  * Delete a category by ID (Admin)
  */
-exports.deleteCategory = async (req, res) => {
+export const deleteCategory = async (req, res) => {
   const category = await Category.findByIdAndDelete(req.params.id);
 
   if (!category) {
@@ -80,6 +80,6 @@ exports.deleteCategory = async (req, res) => {
 
   res.status(204).json({
     status: 'success',
-    data: null
+    data: null,
   });
 };
