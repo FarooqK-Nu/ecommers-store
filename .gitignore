@@ -1,5 +1,8 @@
 node_modules/
+logs/
+dev-data/
 
 .env
 
-logs/
+
+gemini.md

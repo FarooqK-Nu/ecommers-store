@@ -52,6 +52,9 @@ app.use((req, res, next) => {
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
 
+const productRouter = require('./routes/productRoutes');
+const categoryRouter = require('./routes/categoryRoutes');
+
 // 2) ROUTES
 // Base health check
 app.get('/health', (req, res) => {
@@ -60,6 +63,9 @@ app.get('/health', (req, res) => {
     message: 'ShopSphere API is healthy and running'
   });
 });
+
+app.use('/api/v1/products', productRouter);
+app.use('/api/v1/categories', categoryRouter);
 
 // Test error route to verify custom error handling
 app.get('/api/v1/test-error', (req, res) => {
