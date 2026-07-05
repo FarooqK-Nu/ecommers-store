@@ -12,7 +12,7 @@ import ApiError from "../utils/ApiError.js";
  */
 const validate = (schema) => (req, res, next) => {
   // Detect whether the schema is a "partitioned" schema (has body/params/query keys)
-  const shape = schema._def?.shape?.();
+  const shape = schema.shape || undefined;
   const isPartitioned = shape && ('body' in shape || 'params' in shape || 'query' in shape);
 
   let input;
